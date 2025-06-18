@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.flagquiz.databinding.ActivityMainBinding
+import com.info.sqlitekullanimihazirveritabani.DatabaseCopyHelper
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,9 +24,21 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        dataBaseCopy()
+
         binding.button.setOnClickListener {
             val intent = Intent(this@MainActivity, QuizActivity::class.java)
             startActivity(intent)
+        }
+    }
+
+    private fun dataBaseCopy() {
+        val db = DatabaseCopyHelper(this)
+        try {
+            db.createDataBase()
+            db.openDataBase()
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 }
