@@ -13,7 +13,6 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, "FlagQuiz.sqlite", 
                     "image TEXT" +
                     ");"
         )
-
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
