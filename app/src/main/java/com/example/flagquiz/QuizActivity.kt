@@ -2,7 +2,6 @@ package com.example.flagquiz
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -36,14 +35,27 @@ class QuizActivity : AppCompatActivity() {
         dbHelper = DBHelper(this)
         questions = FlagDao().getRandom5Flag(dbHelper)
 
-        Log.d("questions", questions.toString())
+        loadQuestion()
 
         binding.buttonA.setOnClickListener {
+            checkAnswer(binding.buttonA.text.toString())
+            questionCountControl()
+        }
+        binding.buttonB.setOnClickListener {
+            checkAnswer(binding.buttonB.text.toString())
+            questionCountControl()
+        }
+        binding.buttonC.setOnClickListener {
+            checkAnswer(binding.buttonC.text.toString())
+            questionCountControl()
+        }
+        binding.buttonD.setOnClickListener {
+            checkAnswer(binding.buttonD.text.toString())
             questionCountControl()
         }
     }
 
-    fun loadQuestion() {
+    private fun loadQuestion() {
         binding.textViewCount.text = "Question ${questionCount + 1}"
 
         correctOption = questions[questionCount]
@@ -56,16 +68,38 @@ class QuizActivity : AppCompatActivity() {
             )
         )
 
+        wrongOptions = FlagDao().getRandom3WrongFlag(dbHelper, correctOption.id)
+        allOptions = HashSet()
+        allOptions.add(correctOption)
+        allOptions.addAll(wrongOptions)
+
+        binding.buttonA.text = allOptions.elementAt(0).name
+        binding.buttonB.text = allOptions.elementAt(1).name
+        binding.buttonC.text = allOptions.elementAt(2).name
+        binding.buttonD.text = allOptions.elementAt(3).name
     }
 
-    fun questionCountControl() {
+    private fun questionCountControl() {
         questionCount++
         if (questionCount == 5) {
             val intent = Intent(this, ResultActivity::class.java)
+            intent.putExtra("correct", correctCount)
             startActivity(intent)
             finish()
         } else {
             loadQuestion()
         }
+    }
+
+    // check if the user choose the correct option
+    private fun checkAnswer(option: String) {
+        if (option == correctOption.name) {
+            correctCount++
+        } else {
+            wrongCount++
+        }
+
+        binding.textViewCorrect.text = "Correct: $correctCount"
+        binding.textViewWrong.text = "Wrong: $wrongCount"
     }
 }

@@ -8,12 +8,12 @@
     tools:context=".QuizActivity">
 
     <TextView
-        android:id="@+id/textViewRight"
+        android:id="@+id/textViewCorrect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="41dp"
         android:layout_marginTop="61dp"
-        android:text="Right: 1"
+        android:text="Correct: 0"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"

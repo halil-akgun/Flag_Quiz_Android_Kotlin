@@ -23,6 +23,11 @@ class ResultActivity : AppCompatActivity() {
             insets
         }
 
+        val correct = intent.getIntExtra("correct", 0)
+
+        binding.textViewResult.text = "Correct: $correct  Wrong: ${5 - correct}"
+        binding.textViewResultRatio.text = "%${correct * 100 / 5}"
+
         binding.buttonPlayAgain.setOnClickListener {
             val intent = Intent(this, QuizActivity::class.java)
             startActivity(intent)
